@@ -5,9 +5,10 @@ set -euo pipefail
 
 usage() {
   cat <<'EOF'
-Usage: uninstall.sh [--dry-run] [--force] <target-repo-path>
+Usage: uninstall.sh [--dry-run] [--force] [target-repo-path]
 
-Removes Feabhas's agents, skills, and instructions from <target-repo-path>/.github/.
+Removes Feabhas's agents, skills, and instructions from <target-repo-path>/.github/
+(target defaults to the current directory).
 Your copilot-instructions.md is KEPT if it looks customized (differs from the
 template), so you don't lose project config. An empty .github/ is removed too.
 
@@ -33,10 +34,9 @@ while [ $# -gt 0 ]; do
   shift
 done
 
+# No target given? Default to the current directory.
 if [ -z "$TARGET" ]; then
-  echo "Error: target repo path is required." >&2
-  usage
-  exit 1
+  TARGET="."
 fi
 
 if [ ! -d "$TARGET" ]; then
@@ -44,10 +44,20 @@ if [ ! -d "$TARGET" ]; then
   exit 1
 fi
 
+# Normalize to an absolute path so messages and the self-repo guard are clear.
+TARGET="$(cd "$TARGET" && pwd)"
+
 # Resolve the directory this script lives in (the Feabhas checkout).
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 SRC="$SCRIPT_DIR/.github"
 DEST="$TARGET/.github"
+
+# Don't uninstall from the pack's own source repo (would delete the pack itself).
+if [ "$TARGET" = "$SCRIPT_DIR" ]; then
+  echo "Error: refusing to uninstall Feabhas from its own source repo." >&2
+  echo "cd into the repo you want it removed from, or pass its path." >&2
+  exit 1
+fi
 
 if [ ! -d "$DEST" ]; then
   echo "Nothing to uninstall: $DEST does not exist."

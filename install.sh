@@ -5,10 +5,10 @@ set -euo pipefail
 
 usage() {
   cat <<'EOF'
-Usage: install.sh [--dry-run] [--force] [--verify] <target-repo-path>
+Usage: install.sh [--dry-run] [--force] [--verify] [target-repo-path]
 
 Copies Feabhas's agents, skills, and the copilot-instructions.md template into
-<target-repo-path>/.github/.
+<target-repo-path>/.github/ (target defaults to the current directory).
 
 Options:
   --dry-run   Show what would be copied without writing anything.
@@ -39,16 +39,18 @@ while [ $# -gt 0 ]; do
   shift
 done
 
+# No target given? Default to the current directory.
 if [ -z "$TARGET" ]; then
-  echo "Error: target repo path is required." >&2
-  usage
-  exit 1
+  TARGET="."
 fi
 
 if [ ! -d "$TARGET" ]; then
   echo "Error: target '$TARGET' is not a directory." >&2
   exit 1
 fi
+
+# Normalize to an absolute path so messages and the self-repo guard are clear.
+TARGET="$(cd "$TARGET" && pwd)"
 
 # Resolve the directory this script lives in (the Feabhas checkout).
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -82,6 +84,13 @@ if [ "$VERIFY" -eq 1 ]; then
   fi
   echo "Feabhas is installed in $DEST."
   exit 0
+fi
+
+# Don't copy the pack into its own source repo.
+if [ "$TARGET" = "$SCRIPT_DIR" ]; then
+  echo "Error: refusing to install Feabhas into its own source repo." >&2
+  echo "cd into the repo you want it in, or pass its path (e.g. feabhas install /path/to/your-repo)." >&2
+  exit 1
 fi
 
 do_mkdir() {

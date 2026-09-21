@@ -75,8 +75,9 @@ it's a plain shell script):
 ./feabhas help
 ```
 
-Flags pass straight through — e.g. `./feabhas install --dry-run ...`, `./feabhas install --force ...`,
-or `./feabhas uninstall --force ...`.
+The target path is optional — omit it to act on the current directory (`cd` into your repo,
+then `feabhas install`). Flags pass straight through — e.g. `./feabhas install --dry-run ...`,
+`./feabhas install --force ...`, or `./feabhas uninstall --force ...`.
 
 `uninstall` deletes the `agents/`, `skills/`, and `instructions/` it added and removes `.github/`
 if nothing else is left there. It **keeps your `copilot-instructions.md` if you've customized it**
@@ -90,8 +91,9 @@ mkdir -p ~/.local/bin
 ln -s "$(pwd)/feabhas" ~/.local/bin/feabhas
 ```
 
-Then run `feabhas install /path/to/your-repo` from anywhere. If `~/.local/bin` isn't on your
-`PATH`, add `export PATH="$HOME/.local/bin:$PATH"` to your shell rc; undo with `rm ~/.local/bin/feabhas`.
+Then, from anywhere, `cd` into a repo and run `feabhas install` (or pass a path:
+`feabhas install /path/to/repo`). If `~/.local/bin` isn't on your `PATH`, add
+`export PATH="$HOME/.local/bin:$PATH"` to your shell rc; undo with `rm ~/.local/bin/feabhas`.
 
 ### Then — configure for your project
 

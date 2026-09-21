@@ -23,19 +23,21 @@ usage() {
   cat <<'EOF'
 Feabhas — a QA & Engineering Copilot pack.
 
-Usage: feabhas <command> [options] <target-repo-path>
+Usage: feabhas <command> [options] [target-repo-path]
+
+The target path is optional — omit it to act on the current directory.
 
 Commands:
-  install     Copy the pack into a target repo's .github/.
-  uninstall   Remove the pack from a target repo's .github/.
-  verify      Check an existing install in a target repo.
+  install     Copy the pack into a repo's .github/ (defaults to the current dir).
+  uninstall   Remove the pack from a repo's .github/ (defaults to the current dir).
+  verify      Check an existing install (defaults to the current dir).
   help        Show this help.
 
-Options are passed straight through to the underlying script, e.g.:
+Options pass straight through to the underlying script, e.g.:
+  feabhas install                       # into the current directory
+  feabhas install /path/to/repo
   feabhas install --dry-run /path/to/repo
-  feabhas install --force /path/to/repo
-  feabhas uninstall --dry-run /path/to/repo
-  feabhas verify /path/to/repo
+  feabhas uninstall --force /path/to/repo
 
 Run a command with -h for its full options, e.g.  feabhas install -h
 EOF
