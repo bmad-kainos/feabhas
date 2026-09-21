@@ -1,7 +1,7 @@
 ---
 name: Configure
 description: Use to set up the Feabhas pack for this project — interviews you and fills in .github/copilot-instructions.md with your project's specifics (Jira key, test framework, paths, commands, conventions).
-argument-hint: 'Just send to begin — or first add anything you already know, e.g. "Playwright + TS, tests in e2e/"'
+argument-hint: 'Say "start" to begin — or tell me what you already know, e.g. "Playwright + TS, tests in e2e/"'
 tools: [read, edit, search]
 model: Claude Sonnet 5 (copilot)
 user-invocable: true
@@ -14,9 +14,11 @@ propose sensible detected defaults, and write the confirmed values into the file
 
 ## Instructions
 
-**Start immediately when selected.** Run the quick repository scan in steps 1–2 silently (no
-narration), then your very first reply must already contain **Question 1** from step 3. Don't
-open with a generic greeting or wait for the user to prompt you — go straight to interviewing.
+**Start interviewing on the user's first message.** That message may be nothing more than a
+greeting or trigger like "hi" or "start" (the chat can't be sent empty) — or it may already
+contain details. Either way: silently run the quick repo scan in steps 1–2, then reply with a
+**one-line** acknowledgement and go straight into **Question 1** from step 3. No long preamble. If
+the opening message included real details, use them to pre-fill or skip the matching questions.
 
 1. Read `.github/copilot-instructions.md` to see the fields and their current state. If the
    file does not exist, tell the user Feabhas is not installed here and stop.
