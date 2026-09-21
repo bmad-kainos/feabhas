@@ -5,7 +5,7 @@ set -euo pipefail
 
 usage() {
   cat <<'EOF'
-Usage: install.sh [--dry-run] [--force] <target-repo-path>
+Usage: install.sh [--dry-run] [--force] [--verify] <target-repo-path>
 
 Copies Feabhas's agents, skills, and the copilot-instructions.md template into
 <target-repo-path>/.github/.
@@ -13,6 +13,8 @@ Copies Feabhas's agents, skills, and the copilot-instructions.md template into
 Options:
   --dry-run   Show what would be copied without writing anything.
   --force     Overwrite an existing .github/copilot-instructions.md (default: keep it).
+  --verify    Check an existing install instead of copying; report missing items
+              and warn if copilot-instructions.md is still unconfigured.
   -h, --help  Show this help.
 
 After installing, open the target repo in VS Code and run the "Configure" agent
@@ -22,12 +24,14 @@ EOF
 
 DRY_RUN=0
 FORCE=0
+VERIFY=0
 TARGET=""
 
 while [ $# -gt 0 ]; do
   case "$1" in
     --dry-run) DRY_RUN=1 ;;
     --force) FORCE=1 ;;
+    --verify) VERIFY=1 ;;
     -h|--help) usage; exit 0 ;;
     -*) echo "Unknown option: $1" >&2; usage; exit 1 ;;
     *) TARGET="$1" ;;
@@ -56,6 +60,29 @@ if [ ! -d "$SRC/agents" ] || [ ! -d "$SRC/skills" ]; then
 fi
 
 DEST="$TARGET/.github"
+
+if [ "$VERIFY" -eq 1 ]; then
+  echo "Verifying Feabhas in: $DEST"
+  missing=0
+  for item in agents skills instructions copilot-instructions.md; do
+    if [ -e "$DEST/$item" ]; then
+      echo "  OK       $item"
+    else
+      echo "  MISSING  $item"
+      missing=1
+    fi
+  done
+  if [ -f "$DEST/copilot-instructions.md" ] && grep -q '<!--' "$DEST/copilot-instructions.md"; then
+    echo "  WARN     copilot-instructions.md still has unfilled placeholders - run the \"Configure\" agent."
+  fi
+  echo
+  if [ "$missing" -eq 1 ]; then
+    echo "Feabhas is NOT fully installed in $DEST."
+    exit 1
+  fi
+  echo "Feabhas is installed in $DEST."
+  exit 0
+fi
 
 do_mkdir() {
   if [ "$DRY_RUN" -eq 1 ]; then echo "[dry-run] mkdir -p $1"; else mkdir -p "$1"; fi

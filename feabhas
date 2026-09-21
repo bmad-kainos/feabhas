@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Feabhas CLI — a thin front-end over install.sh / uninstall.sh.
+# Run ./feabhas <command>, or symlink it onto your PATH to run `feabhas <command>`
+# from anywhere:  ln -s "$PWD/feabhas" /usr/local/bin/feabhas
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+usage() {
+  cat <<'EOF'
+Feabhas — a QA & Engineering Copilot pack.
+
+Usage: feabhas <command> [options] <target-repo-path>
+
+Commands:
+  install     Copy the pack into a target repo's .github/.
+  uninstall   Remove the pack from a target repo's .github/.
+  verify      Check an existing install in a target repo.
+  help        Show this help.
+
+Options are passed straight through to the underlying script, e.g.:
+  feabhas install --dry-run /path/to/repo
+  feabhas install --force /path/to/repo
+  feabhas uninstall --dry-run /path/to/repo
+  feabhas verify /path/to/repo
+
+Run a command with -h for its full options, e.g.  feabhas install -h
+EOF
+}
+
+cmd="${1:-help}"
+[ $# -gt 0 ] && shift || true
+
+case "$cmd" in
+  install)        exec "$SCRIPT_DIR/install.sh" "$@" ;;
+  uninstall)      exec "$SCRIPT_DIR/uninstall.sh" "$@" ;;
+  verify)         exec "$SCRIPT_DIR/install.sh" --verify "$@" ;;
+  help|-h|--help) usage; exit 0 ;;
+  *) echo "Unknown command: $cmd" >&2; echo >&2; usage; exit 1 ;;
+esac
