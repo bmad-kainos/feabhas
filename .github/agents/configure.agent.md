@@ -60,7 +60,9 @@ the opening message included real details, use them to pre-fill or skip the matc
    ```
 
 4. When Jira is used, capture the **Jira base URL** (e.g. `https://your-org.atlassian.net`) and
-   the **Jira project key** — the Jira, Confluence, and Zephyr skills need these.
+   the **Jira project key** — the Jira, Confluence, and Zephyr skills need these. When you ask for
+   the project key, be explicit: it's the short prefix on issue IDs (e.g. `PROJ` in `PROJ-1234`),
+   **not** a token, PAT, password, or the base URL — and always show that example.
 
 5. Write the confirmed values into `.github/copilot-instructions.md`: replace each
    `<!-- ... -->` placeholder comment with the agreed value, keeping the field label and the

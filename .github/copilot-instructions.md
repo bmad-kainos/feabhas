@@ -10,7 +10,7 @@
 ## Project
 
 - **Project name:** <!-- e.g. My API Service -->
-- **Jira project key:** <!-- e.g. PROJ — used by jira-testing-analysis, confluence-test-plan, create-zephyr-tests -->
+- **Jira project key:** <!-- the prefix on issue IDs, e.g. PROJ in PROJ-1234 — NOT a token/PAT or the base URL. Used by jira-testing-analysis, confluence-test-plan, create-zephyr-tests -->
 - **Repository:** <!-- e.g. github.com/my-org/my-repo -->
 
 ---

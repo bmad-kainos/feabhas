@@ -232,7 +232,7 @@ jql: project = <PROJECT_KEY> AND status = "In Progress"
 fields: ["summary", "assignee"]
 ```
 
-Use the ticket summaries (not IDs) to populate the "Next week" bullets. Ask the user for their project key if it is not set in `.github/copilot-instructions.md`.
+Use the ticket summaries (not IDs) to populate the "Next week" bullets. Ask the user for their project key (e.g. `PROJ`) if it is not set in `.github/copilot-instructions.md`.
 
 ---
 

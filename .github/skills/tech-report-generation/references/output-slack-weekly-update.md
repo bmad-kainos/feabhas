@@ -44,7 +44,7 @@ Use for: the tech team's weekly update posted in the DPSP Slack channel. Mirrors
 project = <PROJECT_KEY> AND status = "In Progress"
 ```
 
-Ask the user for their project key if it is not set in `.github/copilot-instructions.md`.
+Ask the user for their project key (e.g. `PROJ`) if it is not set in `.github/copilot-instructions.md`.
 
 Prioritise tickets using this order:
 1. Tickets where commits were made in the requested date range (cross-reference the git log output)

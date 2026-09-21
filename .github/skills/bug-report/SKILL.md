@@ -104,7 +104,7 @@ mcp_atlassian_mcp_jira_create_issue(
 )
 ```
 
-Ask the user to confirm the project key and priority before creating.
+Ask the user to confirm the project key (e.g. `PROJ`) and priority before creating.
 
 If the MCP server is unavailable, output the full report as Markdown for the user to copy into their tracker manually.
 
