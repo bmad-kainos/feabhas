@@ -2,10 +2,22 @@
 set -euo pipefail
 
 # Feabhas CLI — a thin front-end over install.sh / uninstall.sh.
-# Run ./feabhas <command>, or symlink it onto your PATH to run `feabhas <command>`
-# from anywhere:  ln -s "$PWD/feabhas" /usr/local/bin/feabhas
+# Run ./feabhas <command>, or put it on your PATH to run `feabhas <command>`
+# from anywhere. From the feabhas repo root:
+#   mkdir -p ~/.local/bin && ln -s "$(pwd)/feabhas" ~/.local/bin/feabhas
 
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+# Resolve this script's real location, following symlinks — so it still finds its
+# sibling install.sh / uninstall.sh when invoked via a symlink on your PATH.
+SOURCE="${BASH_SOURCE[0]}"
+while [ -h "$SOURCE" ]; do
+  dir="$(cd -P "$(dirname "$SOURCE")" && pwd)"
+  SOURCE="$(readlink "$SOURCE")"
+  case "$SOURCE" in
+    /*) ;;
+    *) SOURCE="$dir/$SOURCE" ;;
+  esac
+done
+SCRIPT_DIR="$(cd -P "$(dirname "$SOURCE")" && pwd)"
 
 usage() {
   cat <<'EOF'
