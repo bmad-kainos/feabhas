@@ -31,6 +31,7 @@ Commands:
   install     Copy the pack into a repo's .github/ (defaults to the current dir).
   uninstall   Remove the pack from a repo's .github/ (defaults to the current dir).
   verify      Check an existing install (defaults to the current dir).
+  link        Put feabhas on your PATH (symlink into ~/.local/bin).
   help        Show this help.
 
 Options pass straight through to the underlying script, e.g.:
@@ -50,6 +51,24 @@ case "$cmd" in
   install)        exec "$SCRIPT_DIR/install.sh" "$@" ;;
   uninstall)      exec "$SCRIPT_DIR/uninstall.sh" "$@" ;;
   verify)         exec "$SCRIPT_DIR/install.sh" --verify "$@" ;;
+  link)
+    bindir="${1:-$HOME/.local/bin}"
+    target="$bindir/feabhas"
+    mkdir -p "$bindir"
+    # Never clobber a real file that isn't our own symlink.
+    if [ -e "$target" ] && [ ! -L "$target" ]; then
+      echo "Error: $target exists and is not a symlink; not overwriting." >&2
+      exit 1
+    fi
+    ln -sf "$SCRIPT_DIR/feabhas" "$target"
+    echo "Linked: $target -> $SCRIPT_DIR/feabhas"
+    case ":$PATH:" in
+      *":$bindir:"*) ;;
+      *) echo "Note: $bindir is not on your PATH — add:  export PATH=\"$bindir:\$PATH\"" ;;
+    esac
+    echo "If 'feabhas' isn't found yet, run 'rehash' or open a new terminal."
+    exit 0
+    ;;
   help|-h|--help) usage; exit 0 ;;
   *) echo "Unknown command: $cmd" >&2; echo >&2; usage; exit 1 ;;
 esac

@@ -72,6 +72,7 @@ it's a plain shell script):
 ./feabhas install   /path/to/your-repo   # copy the pack in — re-run any time to update
 ./feabhas verify    /path/to/your-repo   # check an install; warns if not yet configured
 ./feabhas uninstall /path/to/your-repo   # remove the pack (keeps a customized config)
+./feabhas link                           # put feabhas on your PATH (see below)
 ./feabhas help
 ```
 
@@ -83,17 +84,15 @@ then `feabhas install`). Flags pass straight through — e.g. `./feabhas install
 if nothing else is left there. It **keeps your `copilot-instructions.md` if you've customized it**
 (pass `--force` to remove that too).
 
-**Optional — put `feabhas` on your PATH** (no sudo):
+**Optional — put `feabhas` on your PATH** (no sudo). From the repo root:
 
 ```bash
-# run from the feabhas repo root
-mkdir -p ~/.local/bin
-ln -s "$(pwd)/feabhas" ~/.local/bin/feabhas
+./feabhas link
 ```
 
-Then, from anywhere, `cd` into a repo and run `feabhas install` (or pass a path:
-`feabhas install /path/to/repo`). If `~/.local/bin` isn't on your `PATH`, add
-`export PATH="$HOME/.local/bin:$PATH"` to your shell rc; undo with `rm ~/.local/bin/feabhas`.
+Symlinks `feabhas` into `~/.local/bin` using the script's own path, so it's correct wherever you
+run it from. If that dir isn't on your `PATH`, add `export PATH="$HOME/.local/bin:$PATH"` to your
+shell rc. If the command isn't found yet, run `rehash`. Remove it with `rm ~/.local/bin/feabhas`.
 
 ### Then — configure for your project
 
