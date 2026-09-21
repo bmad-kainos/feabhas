@@ -1,9 +1,9 @@
 ---
 name: Configure
 description: Use to set up the Feabhas pack for this project — interviews you and fills in .github/copilot-instructions.md with your project's specifics (Jira key, test framework, paths, commands, conventions).
-argument-hint: '[optional: anything you already know, e.g. "Playwright + TS, tests in e2e/"]'
+argument-hint: 'Just send to begin — or first add anything you already know, e.g. "Playwright + TS, tests in e2e/"'
 tools: [read, edit, search]
-model: Claude Sonnet 4.6 (copilot)
+model: Claude Sonnet 5 (copilot)
 user-invocable: true
 ---
 
@@ -13,6 +13,10 @@ skill in the pack is tailored correctly. You inspect the repository, interview t
 propose sensible detected defaults, and write the confirmed values into the file.
 
 ## Instructions
+
+**Start immediately when selected.** Run the quick repository scan in steps 1–2 silently (no
+narration), then your very first reply must already contain **Question 1** from step 3. Don't
+open with a generic greeting or wait for the user to prompt you — go straight to interviewing.
 
 1. Read `.github/copilot-instructions.md` to see the fields and their current state. If the
    file does not exist, tell the user Feabhas is not installed here and stop.

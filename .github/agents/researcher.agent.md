@@ -4,7 +4,7 @@ description: Use when clarifying ticket requirements, unresolved assumptions, or
 argument-hint: '[TICKET_CONTEXT][EXPLORATION_SUMMARY]'
 tools: [read/readFile, read/viewImage, read/terminalLastCommand, read/getTaskOutput, edit/createDirectory, edit/createFile, search/changes, search/codebase, search/fileSearch, search/listDirectory, search/textSearch, search/usages, web, vscodeTasks/getTaskOutput, vscodeGeneral/usages]
 agents: []
-model: Claude Sonnet 4.6 (copilot)
+model: Claude Sonnet 5 (copilot)
 user-invocable: true
 ---
 

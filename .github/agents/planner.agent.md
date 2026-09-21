@@ -4,7 +4,7 @@ description: Generate an implementation plan for a feature, bug or refactoring e
 argument-hint: '[TICKET_CONTEXT][EXPLORATION_SUMMARY][RESEARCH_SUMMARY]'
 tools: [read, search, web, edit]
 agents: []
-model: Claude Sonnet 4.6 (copilot)
+model: Claude Sonnet 5 (copilot)
 user-invocable: true
 ---
 

@@ -4,7 +4,7 @@ description: Use when implementing an approved plan, making code changes, and va
 argument-hint: '[IMPLEMENTATION_PLAN]'
 tools: [execute, read, edit, search]
 agents: []
-model: Claude Sonnet 4.6 (copilot)
+model: Claude Sonnet 5 (copilot)
 user-invocable: true
 ---
 
